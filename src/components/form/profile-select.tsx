@@ -13,17 +13,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { bananaImage } from "@/storage/app-svg";
 
 interface SelectOption {
   value: string;
   label: string;
   image: string;
 }
-
-const selectOption: SelectOption[] = [
-  { value: "home", label: "home", image: bananaImage },
-];
 
 interface CustomSelectProps<T extends FieldValues> {
   control: Control<T>;
