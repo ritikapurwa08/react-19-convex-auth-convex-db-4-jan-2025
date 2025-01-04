@@ -92,8 +92,9 @@ const BlogCard = ({
             className="flex justify-between items-center mt-4"
           >
             <span
+              onClick={() => navigate(`/author/${authorId}`)}
               id="authorName"
-              className="text-sm font-semibold text-gray-600"
+              className="text-sm hover:text-blue-500 transition-all duration-300 ease-in-out font-semibold text-gray-600"
             >
               By {authorName}
             </span>

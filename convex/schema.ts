@@ -21,7 +21,9 @@ const Schema = defineSchema({
     .searchIndex("search_name_content", {
       searchField: "name", // Field to search
       filterFields: ["content"], // Additional fields to filter
-    }),
+    })
+
+    .index("by_popular", ["totalLikes"]),
 
   userProfiles: defineTable({
     existingUserId: v.optional(v.id("users")),

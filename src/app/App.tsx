@@ -15,6 +15,7 @@ import { LoaderIcon } from "lucide-react";
 import ProfileLayout from "@/components/_userProfile/components/profile-layout";
 import FloatingNavBar from "./_pages/home/floating-nav-bar";
 import AdminPage from "./_pages/admin/page";
+import AuthorProfile from "./_pages/authors/page";
 
 const App = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -58,6 +59,7 @@ const App = () => {
             </Route>
             <Route path="/user-profile" element={<ProfileLayout />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/author/:id" element={<AuthorProfile />} />
           </>
         )}
       </Routes>

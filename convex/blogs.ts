@@ -144,20 +144,6 @@ export const searchBlogs = query({
   },
 });
 
-export const getPaginatedBlogs = query({
-  args: {
-    paginationOpts: paginationOptsValidator, // Convex pagination options
-  },
-  handler: async (ctx, args) => {
-    const { paginationOpts } = args;
-    const blogs = await ctx.db
-      .query("blogs")
-      .order("desc")
-      .paginate(paginationOpts);
-    return blogs;
-  },
-});
-
 export const totalLikes = query({
   args: {
     blogId: v.id("blogs"),
@@ -184,5 +170,43 @@ export const totalSaved = query({
       return 0;
     }
     return blog.totalSaved || 0;
+  },
+});
+
+export const getLatestBlogs = query({
+  args: {
+    paginationOpts: paginationOptsValidator,
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("blogs")
+      .withIndex("by_creation_time")
+      .order("desc")
+      .paginate(args.paginationOpts);
+  },
+});
+
+export const getPopularBlogs = query({
+  args: {
+    paginationOpts: paginationOptsValidator,
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("blogs")
+      .withIndex("by_popular")
+      .order("desc")
+      .paginate(args.paginationOpts);
+  },
+});
+
+export const getPaginatedBlogs = query({
+  args: {
+    paginationOpts: paginationOptsValidator,
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("blogs")
+      .order("desc")
+      .paginate(args.paginationOpts);
   },
 });

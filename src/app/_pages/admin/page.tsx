@@ -8,7 +8,7 @@ const AdminPage = () => {
       <PasskeyModal />
       <main>
         <UsersPage />
-        <BlogPage showRemoveButton={true} showUpdateButton={false} />
+        <BlogPage showRemoveButton={true} showUpdateButton={true} />
       </main>
     </div>
   );

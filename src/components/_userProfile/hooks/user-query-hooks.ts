@@ -1,6 +1,6 @@
 import { api } from "@convex/_generated/api";
-import { Doc } from "@convex/_generated/dataModel";
-import { usePaginatedQuery } from "convex/react";
+import { Doc, Id } from "@convex/_generated/dataModel";
+import { usePaginatedQuery, useQuery } from "convex/react";
 
 type User = Doc<"users">;
 
@@ -29,5 +29,16 @@ export const usePaginatedUsers = (
     loadMore,
     isLoading,
     hasMore,
+  };
+};
+
+export const GetUserById = (id: Id<"users">) => {
+  const user = useQuery(api.users.getUserById, { userId: id });
+  const isLoading = user === undefined;
+  const error = user === null;
+  return {
+    user,
+    isLoading,
+    error,
   };
 };

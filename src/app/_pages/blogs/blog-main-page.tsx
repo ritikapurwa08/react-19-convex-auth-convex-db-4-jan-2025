@@ -3,9 +3,12 @@
 import { useState } from "react";
 import BlogCard from "@/components/blogs/components/blog-card";
 import BlogsLoadingCards from "@/components/blogs/components/blog-loading-cards";
-// Use the paginated hook
 import { Button } from "@/components/ui/button";
-import { usePaginatedBlogs } from "@/components/blogs/hooks/blog-query-hooks";
+import {
+  useGetAllPaginatedBlogs,
+  useGetLatestPaginatedBlogs,
+  useGetPopularPaginatedBlogs,
+} from "@/components/blogs/hooks/blog-paginated-queries";
 
 interface BlogPageProps {
   showRemoveButton?: boolean;
@@ -13,18 +16,32 @@ interface BlogPageProps {
 }
 
 const BlogPage = ({ showRemoveButton, showUpdateButton }: BlogPageProps) => {
+  const [activeFilter, setActiveFilter] = useState<
+    "all" | "latest" | "popular"
+  >("all");
+
+  // Use the appropriate hook based on the active filter
+  const allBlogs = useGetAllPaginatedBlogs(5);
+  const latestBlogs = useGetLatestPaginatedBlogs(5);
+  const popularBlogs = useGetPopularPaginatedBlogs(5);
+
   const {
     results: blogs,
     status,
     loadMore,
     isLoading,
     hasMore,
-  } = usePaginatedBlogs(5); // Load 5 blogs initially
+  } = activeFilter === "all"
+    ? allBlogs
+    : activeFilter === "latest"
+      ? latestBlogs
+      : popularBlogs;
+
   const [loadingMore, setLoadingMore] = useState(false);
 
   const handleLoadMore = async () => {
     setLoadingMore(true);
-    loadMore(10);
+    await loadMore(10); // Load 10 more items
     setLoadingMore(false);
   };
 
@@ -52,12 +69,34 @@ const BlogPage = ({ showRemoveButton, showUpdateButton }: BlogPageProps) => {
         </p>
       </div>
 
+      {/* Filter Buttons */}
+      <div className="flex justify-center gap-4 mb-8">
+        <Button
+          variant={activeFilter === "all" ? "default" : "outline"}
+          onClick={() => setActiveFilter("all")}
+        >
+          All Blogs
+        </Button>
+        <Button
+          variant={activeFilter === "latest" ? "default" : "outline"}
+          onClick={() => setActiveFilter("latest")}
+        >
+          Latest Blogs
+        </Button>
+        <Button
+          variant={activeFilter === "popular" ? "default" : "outline"}
+          onClick={() => setActiveFilter("popular")}
+        >
+          Popular Blogs
+        </Button>
+      </div>
+
       {/* Blog Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {blogs.map((blog) => (
           <BlogCard
             showRemoveButton={showRemoveButton}
-            showUpdateButton={showRemoveButton}
+            showUpdateButton={showUpdateButton}
             key={blog._id}
             {...blog}
           />
