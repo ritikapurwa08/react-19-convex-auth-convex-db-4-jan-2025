@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { toast } from "sonner";
-import {
-  LoaderIcon,
-  LockIcon,
-  MailIcon,
-  TriangleAlertIcon,
-} from "lucide-react";
+import { LoaderIcon, TriangleAlertIcon } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { AuthSignInSchemaType } from "../constants/auth-types";
 import { AuthZodForm } from "../constants/auh-zod-form";
@@ -52,7 +47,6 @@ const SignInInput = () => {
           label="Email"
           disabled={loading}
           placeholder="Enter Your Email"
-          icon={MailIcon}
         />
         <CustomPasswordInput
           control={signInZodForm.control}
@@ -60,7 +54,6 @@ const SignInInput = () => {
           name="password"
           disabled={loading}
           placeholder="Enter Your Password"
-          icon={LockIcon}
         />
         {!!error && (
           <div className="flex  h-8 rounded-lg flex-row bg-red-500/50 items-center justify-center px-4">

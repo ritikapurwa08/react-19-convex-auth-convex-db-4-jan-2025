@@ -4,9 +4,7 @@ import { useCurrentUser } from "@/components/auth/hooks/get-current-user";
 import BlogCard from "@/components/blogs/components/blog-card";
 import BlogsLoadingCards from "@/components/blogs/components/blog-loading-cards";
 import { useLikedBlogs } from "@/components/blogs/hooks/blog-query-hooks";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Heart, Smile } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Heart, Smile } from "lucide-react";
 
 const LikedBlogs = () => {
   const { user } = useCurrentUser();
@@ -63,20 +61,10 @@ const LikedBlogs = () => {
   }
 
   return (
-    <main className="flex flex-col ">
-      <div className="pt-2">
-        <Button asChild type="button" variant="outline">
-          <Link className="flex flex-row" to="/blogs">
-            <ArrowLeft className="" />
-            Blogs
-          </Link>
-        </Button>
-      </div>
-      <div className=" w-full grid grid-cols-1 gap-x-4 md:grid-cols-2 lg:grid-cols-3">
-        {likedBlogs.map((likedBlog) => (
-          <BlogCard key={likedBlog._id} {...likedBlog} />
-        ))}
-      </div>
+    <main className=" w-full grid grid-cols-1 gap-x-4 md:grid-cols-2 lg:grid-cols-3">
+      {likedBlogs.map((likedBlog) => (
+        <BlogCard key={likedBlog._id} {...likedBlog} />
+      ))}
     </main>
   );
 };

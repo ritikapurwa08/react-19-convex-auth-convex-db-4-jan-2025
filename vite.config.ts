@@ -14,4 +14,7 @@ export default defineConfig({
       "@convex": path.resolve(__dirname, "./convex"),
     },
   },
+  server: {
+    host: true,
+  },
 });

@@ -3,19 +3,23 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { toast } from "sonner";
 import { Form } from "@/components/ui/form";
 import { LoaderIcon, TriangleAlertIcon } from "lucide-react";
-import { IoIosLock, IoIosMail, IoIosPerson } from "react-icons/io";
 import { AuthSignUpSchemaType } from "../constants/auth-types";
 import { AuthZodForm } from "../constants/auh-zod-form";
 import CustomInput from "@/components/form/custom-input";
 import CustomPasswordInput from "@/components/form/custom-password-input";
 import SubmitLoader from "@/components/loaders/submit-loader";
 import CustomEmailInput from "@/components/form/custom-email-input";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const SignUpInputs = () => {
   const { signIn } = useAuthActions();
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { signUpZodForm } = AuthZodForm();
+  const [showPassword, setShowPassword] = useState(true);
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSignUp = async (values: AuthSignUpSchemaType) => {
     setIsLoading(true);
@@ -51,10 +55,9 @@ const SignUpInputs = () => {
       >
         <CustomInput
           control={signUpZodForm.control}
-          label="Full Name"
+          label="Name"
           disabled={loading}
           name="name"
-          icon={IoIosPerson}
           placeholder="Enter your name here"
         />
 
@@ -62,7 +65,6 @@ const SignUpInputs = () => {
           control={signUpZodForm.control}
           name="email"
           label="Email"
-          icon={IoIosMail}
           placeholder="Enter your email"
         />
 
@@ -71,8 +73,9 @@ const SignUpInputs = () => {
           label="Password"
           name="password"
           disabled={loading}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
           placeholder="Enter Your Password"
-          icon={IoIosLock}
         />
 
         <CustomPasswordInput
@@ -80,9 +83,17 @@ const SignUpInputs = () => {
           label="Confirm Password"
           name="confirmPassword"
           disabled={loading}
-          icon={IoIosLock}
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
           placeholder="Confirm Your Password"
         />
+
+        <div className="flex flex-row items-center pt-2  gap-x-2">
+          <Checkbox onClick={togglePassword} checked={showPassword} />
+          <span className="text-sm">
+            {showPassword ? "Hide" : "Show"} Password
+          </span>
+        </div>
 
         {!!error && (
           <div className="flex  h-8 rounded-lg flex-row bg-red-500/50 items-center justify-center px-4">

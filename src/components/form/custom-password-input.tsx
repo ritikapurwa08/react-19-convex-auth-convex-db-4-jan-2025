@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Control,
   FieldPath,
@@ -13,21 +13,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { Eye, EyeOff, LucideIcon } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 import { IconType } from "react-icons";
-import { Button } from "@/components/ui/button";
-import { Hint } from "@/components/ui/hint";
 
 interface CustomPasswordInputProps<T extends FieldValues> {
   control: Control<T>;
   name: FieldPath<T>;
-  label: string;
+  label?: string;
   placeholder?: string;
   disabled?: boolean;
   className?: string;
   error?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
-  icon: IconType | LucideIcon;
+  icon?: IconType | LucideIcon;
+  showPassword?: boolean;
+  setShowPassword?: (showPassword: boolean) => void;
 }
 
 const CustomPasswordInput = <T extends FieldValues>({
@@ -39,6 +39,7 @@ const CustomPasswordInput = <T extends FieldValues>({
   className,
   error,
   onChange,
+  showPassword,
   icon: Icon,
 }: CustomPasswordInputProps<T>) => {
   const {
@@ -46,17 +47,11 @@ const CustomPasswordInput = <T extends FieldValues>({
     fieldState: { error: fieldError },
   } = useController({ name, control });
 
-  const [showPassword, setShowPassword] = useState(true);
-
-  const toggle = () => {
-    setShowPassword(!showPassword);
-  };
-
   return (
     <FormItem className="flex flex-col gap-x-0">
       <FormLabel
         htmlFor={`${name}-input`}
-        className="text-sm font-medium m-0 -mb-1.5 text-muted-foreground"
+        className="text-sm font-medium m-0 -mb-1 text-muted-foreground"
       >
         {label}
       </FormLabel>
@@ -85,10 +80,10 @@ const CustomPasswordInput = <T extends FieldValues>({
               onChange?.(e);
             }}
           />
-          <Hint label={`${showPassword ? "hide password" : "show password"}`}>
+          {/* <Hint label={`${showPassword ? "hide password" : "show password"}`}>
             <Button
               type="button"
-              onClick={toggle}
+             
               variant="ghost"
               className="absolute size-8   right-3 top-1/2 transform -translate-y-1/2"
             >
@@ -98,7 +93,7 @@ const CustomPasswordInput = <T extends FieldValues>({
                 <Eye className="size-3.5 text-muted-foreground" />
               )}
             </Button>
-          </Hint>
+          </Hint> */}
         </div>
       </FormControl>
       <FormMessage>

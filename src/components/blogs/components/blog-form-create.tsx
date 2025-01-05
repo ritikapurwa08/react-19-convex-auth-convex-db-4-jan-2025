@@ -74,11 +74,13 @@ const BlogFormCreate = ({ minWidth }: BlogCreateFormProps) => {
       ) : (
         <DialogTrigger asChild>
           <Button
-            size="default"
-            className="w-full transition-all duration-200 ease-in-out"
+            className="w-fit px-6 transition-all duration-200 ease-in-out"
             aria-label="Create Blog"
+            type="button"
+            variant="outline"
           >
-            Create Blog
+            <PlusCircle className="size-3.5" />
+            <span>Create Blog</span>
           </Button>
         </DialogTrigger>
       )}

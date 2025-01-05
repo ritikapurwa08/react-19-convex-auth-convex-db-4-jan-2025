@@ -66,10 +66,10 @@ export default function CustomEmailInput<T extends FieldValues>({
   };
 
   return (
-    <FormItem className="relative">
+    <FormItem className="relative flex flex-col gap-y-0.5">
       <FormLabel
         htmlFor={`${name}-input`}
-        className={"text-sm mb-0.5 ml-2 font-medium block"}
+        className="text-sm font-medium m-0 -mb-1.5 ml-1 text-muted-foreground"
       >
         {label}
       </FormLabel>

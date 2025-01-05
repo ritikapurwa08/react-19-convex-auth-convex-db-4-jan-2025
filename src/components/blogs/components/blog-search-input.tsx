@@ -50,13 +50,15 @@ const BlogSearchInput = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <Hint label="Search Blogs" side="right">
-        <DialogTrigger asChild>
-          <Button size="icon" variant="outline" className="hover:bg-secondary">
-            <SearchIcon className="h-5 w-5 " />
-          </Button>
-        </DialogTrigger>
-      </Hint>
+      <DialogTrigger asChild>
+        <div className="relative">
+          <SearchIcon className="absolute size-3.5 top-1/2 transform -translate-y-1/2 left-3 text-muted-foreground" />
+          <Input
+            placeholder="Search Blogs"
+            className="pl-10 pr-4 py-3 focus:ring-primary focus:border-primary placeholder:text-muted-foreground"
+          />
+        </div>
+      </DialogTrigger>
 
       <DialogContent className="max-w-xl sm:max-w-3xl bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 sm:p-8">
         <DialogHeader className="sticky top-0 z-10 bg-inherit px-1 pb-4">

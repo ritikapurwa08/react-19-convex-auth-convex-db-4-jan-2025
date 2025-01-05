@@ -10,78 +10,20 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-
-// Placeholder blog post data (replace with your actual data fetching)
-interface BlogPost {
-  id: number;
-  title: string;
-  imageUrl: string;
-  excerpt: string;
-  date: string;
-}
-
-const featuredPosts: BlogPost[] = [
-  {
-    id: 1,
-    title: "Mastering the Art of Mindful Living",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG9ydHJhaXR8ZW58MHx8MHx8fDA%3D",
-    excerpt:
-      "Discover practical techniques to cultivate mindfulness in your daily routine and unlock a more peaceful, centered way of living.",
-    date: "October 26, 2024",
-  },
-  {
-    id: 2,
-    title: "Unlocking Creativity: A Journey Within",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG9ydHJhaXR8ZW58MHx8MHx8fDA%3D",
-    excerpt:
-      "Explore the depths of your imagination and learn how to tap into your creative potential through inspiring exercises and insightful guidance.",
-    date: "October 22, 2024",
-  },
-  {
-    id: 3,
-    title: "The Power of Connection: Building Meaningful Relationships",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG9ydHJhaXR8ZW58MHx8MHx8fDA%3D",
-    excerpt:
-      "Dive into the essence of human connection and discover how to foster authentic, supportive relationships that enrich your life.",
-    date: "October 18, 2024",
-  },
-];
-
-const latestPosts: BlogPost[] = [
-  ...featuredPosts, // Duplicate featured posts for demo
-  {
-    id: 4,
-    title: "Navigating Change: Embracing Life's Transitions",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG9ydHJhaXR8ZW58MHx8MHx8fDA%3D",
-    excerpt:
-      "Learn how to navigate life's inevitable changes with grace and resilience, turning challenges into opportunities for growth.",
-    date: "October 15, 2024",
-  },
-  {
-    id: 5,
-    title: "The Science of Happiness: Evidence-Based Strategies for Well-being",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG9ydHJhaXR8ZW58MHx8MHx8fDA%3D",
-    excerpt:
-      "Delve into the science of happiness and discover practical, evidence-based strategies to enhance your well-being and live a more fulfilling life.",
-    date: "October 12, 2024",
-  },
-  {
-    id: 6,
-    title: "Culinary Adventures: Exploring Global Flavors",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG9ydHJhaXR8ZW58MHx8MHx8fDA%3D",
-    excerpt:
-      "Embark on a culinary journey around the world, exploring diverse flavors, exotic ingredients, and the cultural stories behind each dish.",
-    date: "October 9, 2024",
-  },
-];
+import {
+  useGetLatestPaginatedBlogs,
+  useGetPopularPaginatedBlogs,
+} from "@/components/blogs/hooks/blog-paginated-queries";
 
 const HomePage: React.FC = () => {
+  const latestBlogs = useGetLatestPaginatedBlogs(5);
+  const popularBlogs = useGetPopularPaginatedBlogs(5);
+
+  const { results } = latestBlogs;
+
+  const showThreeLatestBlogs = results.slice(0, 3);
+  const showThreePopularBlogs = popularBlogs.results.slice(0, 3);
+
   return (
     <div className="container mx-auto">
       {/* Hero Section */}
@@ -116,20 +58,20 @@ const HomePage: React.FC = () => {
 
       {/* Featured Blog Posts */}
       <section className="py-16">
-        <h2 className="mb-10 text-3xl font-bold text-center">Featured Posts</h2>
+        <h2 className="mb-10 text-3xl font-bold text-center">Latest Blogs</h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {featuredPosts.map((post) => (
-            <Card key={post.id}>
+          {showThreeLatestBlogs.map((post) => (
+            <Card key={post._id}>
               <CardHeader>
                 <img
                   src={post.imageUrl}
-                  alt={post.title}
+                  alt={post.name}
                   className="object-cover w-full h-48"
                 />
               </CardHeader>
               <CardContent>
-                <CardTitle>{post.title}</CardTitle>
-                <CardDescription>{post.excerpt}</CardDescription>
+                <CardTitle>{post.name}</CardTitle>
+                <CardDescription>{post.content}</CardDescription>
               </CardContent>
               <CardFooter>
                 <Button variant="link">Read More</Button>
@@ -141,23 +83,23 @@ const HomePage: React.FC = () => {
 
       {/* Latest Blog Posts */}
       <section className="py-16 bg-gray-100">
-        <h2 className="mb-10 text-3xl font-bold text-center">Latest Posts</h2>
+        <h2 className="mb-10 text-3xl font-bold text-center">Popular Blogs</h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {latestPosts.map((post) => (
-            <Card key={post.id} className="flex flex-col">
+          {showThreePopularBlogs.map((post) => (
+            <Card key={post._id} className="flex flex-col">
               <CardHeader>
                 <img
                   src={post.imageUrl}
-                  alt={post.title}
+                  alt={post.name}
                   className="object-cover w-full h-48"
                 />
               </CardHeader>
               <CardContent className="flex-grow">
-                <CardTitle>{post.title}</CardTitle>
-                <CardDescription>{post.excerpt}</CardDescription>
+                <CardTitle>{post.name}</CardTitle>
+                <CardDescription>{post.content}</CardDescription>
               </CardContent>
               <CardFooter>
-                <p className="text-sm text-gray-500">{post.date}</p>
+                <p className="text-sm text-gray-500">{post._creationTime}</p>
                 <Button variant="link">Read More</Button>
               </CardFooter>
             </Card>

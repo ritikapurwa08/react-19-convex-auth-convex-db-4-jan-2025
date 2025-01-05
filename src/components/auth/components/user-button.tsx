@@ -34,10 +34,11 @@ const UserButton = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="relative h-10 w-10 rounded-full p-0"
+          className="relative size-8 rounded-full p-0"
           aria-label="User menu"
+          type="button"
         >
-          <Avatar className="h-10 w-10">
+          <Avatar className="size-6">
             <AvatarImage src={defaultProfileImage} alt={userName} />
             <AvatarFallback>{userName.charAt(0).toUpperCase()}</AvatarFallback>
           </Avatar>

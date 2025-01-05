@@ -49,16 +49,16 @@ export default function CustomInput<T extends FieldValues>({
   } = useController({ name, control, defaultValue });
 
   return (
-    <FormItem className="relative">
+    <FormItem className="relative flex flex-col gap-y-0.5">
       <FormLabel
         htmlFor={`${name}-input`}
-        className={"text-sm   mb-0.5 ml-2 font-medium  block"}
+        className="text-sm -mb-2 text-muted-foreground ml-1 font-semibold"
       >
         {label}
       </FormLabel>
 
-      <FormControl>
-        <div className={"relative"}>
+      <FormControl className="m-0  p-0">
+        <div className="relative">
           {Icon && (
             <Icon
               size={20}
@@ -74,7 +74,7 @@ export default function CustomInput<T extends FieldValues>({
             {...field}
             disabled={disabled}
             className={cn(
-              "pr-10  border-opacity-30 rounded-xl border-zinc-500",
+              "pr-10  border-opacity-30  rounded-xl border-zinc-500",
               !!Icon && "pl-10",
               className
             )}
@@ -85,7 +85,7 @@ export default function CustomInput<T extends FieldValues>({
           />
         </div>
       </FormControl>
-      <FormMessage className="mt-1 text-xs text-red-600">
+      <FormMessage className=" m-0 -mb-4 p-0 text-xs text-red-600">
         {(error ?? fieldError?.message) && (
           <span>{error ?? fieldError?.message}</span>
         )}

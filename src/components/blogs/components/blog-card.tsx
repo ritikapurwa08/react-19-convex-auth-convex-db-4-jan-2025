@@ -65,7 +65,7 @@ const BlogCard = ({
   return (
     <Card
       key={`${authorId} ${_id} ${image}`}
-      className="max-w-2xl mx-auto my-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
+      className="max-w-2xl mx-auto  my-2 shadow-lg hover:shadow-xl transition-shadow duration-300"
     >
       <CardContent className="p-0">
         <div

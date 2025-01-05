@@ -34,8 +34,8 @@ const SubmitLoader: React.FC<SubmitLoaderProps> = ({
         cn(
           "flex w-full items-center justify-center px-4 py-2 rounded font-semibold transition-colors disabled:cursor-not-allowed",
           isDisabled
-            ? "bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white" // Keep blue when loading but not clickable
-            : "bg-blue-500 hover:bg-blue-600 text-white",
+            ? "bg-pink-500 hover:bg-pink-600 disabled:bg-gray-300 text-white" // Keep blue when loading but not clickable
+            : "bg-pink-500 hover:bg-pink-600 text-white",
           className,
           btnClassName
         )

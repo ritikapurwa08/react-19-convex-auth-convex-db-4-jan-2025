@@ -1,21 +1,20 @@
-import { useConvexAuth } from "convex/react";
 import { useEffect } from "react";
+import { useConvexAuth } from "convex/react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import HeroPage from "./_pages/home/page";
-import BlogLayout from "@/components/blogs/components/blog-layout";
-import BlogPage from "./_pages/blogs/blog-main-page";
 import LikedBlogs from "./_pages/blogs/blog-liked-page";
 import SavedBlogs from "./_pages/blogs/blog-saved-page";
 import AuthMainPage from "./_pages/auth/auth-main-page";
 import BlogTestPage from "./_pages/blogs/blog-test-page";
-import BlogDetailPage from "@/components/blogs/components/blog-details-page";
-
-import { Toaster } from "@/components/ui/toaster";
-import { LoaderIcon } from "lucide-react";
-import ProfileLayout from "@/components/_userProfile/components/profile-layout";
-import FloatingNavBar from "./_pages/home/floating-nav-bar";
 import AdminPage from "./_pages/admin/page";
 import AuthorProfile from "./_pages/authors/page";
+import MobileNavigation from "./_pages/home/mobile-navigation";
+import BlogDetailPage from "@/components/blogs/components/blog-details-page";
+import { Toaster } from "@/components/ui/toaster";
+import ProfileLayout from "@/components/_userProfile/components/profile-layout";
+import { LoaderIcon } from "lucide-react";
+import BlogLayout from "@/components/blogs/components/blog-layout";
+import BlogPage from "./_pages/blogs/blog-main-page";
 
 const App = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -71,7 +70,7 @@ const App = () => {
         </div>
       )}
 
-      {isAuthenticated && <FloatingNavBar />}
+      {isAuthenticated && <MobileNavigation />}
       <Toaster />
     </div>
   );
