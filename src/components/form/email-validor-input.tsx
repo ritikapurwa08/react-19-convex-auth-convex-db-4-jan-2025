@@ -104,7 +104,23 @@ export default function CustomImageUrlInput<T extends FieldValues>({
   };
 
   return (
-    <FormItem className="relative">
+    <FormItem className="relative min-w-full px-4">
+      <div
+        className={cn(
+          "mt-4 transition-all w-full h-full duration-300 ease-in-out",
+          debouncedImageUrl && isValidImage
+            ? "opacity-100 scale-100" // Visible state
+            : "opacity-0 scale-95" // Hidden state
+        )}
+      >
+        {debouncedImageUrl && isValidImage && (
+          <img
+            src={debouncedImageUrl}
+            alt="Preview"
+            className="rounded-xl  overflow-hidden border object-cover"
+          />
+        )}
+      </div>
       <FormLabel
         htmlFor={`${name}-input`}
         className={"text-sm mb-0.5 ml-2 font-medium block"}
@@ -152,23 +168,6 @@ export default function CustomImageUrlInput<T extends FieldValues>({
       </FormControl>
 
       {/* Image Preview */}
-
-      <div
-        className={cn(
-          "mt-4 transition-all duration-300 ease-in-out",
-          debouncedImageUrl && isValidImage
-            ? "opacity-100 scale-100" // Visible state
-            : "opacity-0 scale-95" // Hidden state
-        )}
-      >
-        {debouncedImageUrl && isValidImage && (
-          <img
-            src={debouncedImageUrl}
-            alt="Preview"
-            className="size-24 object-cover rounded-lg"
-          />
-        )}
-      </div>
 
       <FormMessage className="mt-1 text-xs text-red-600">
         {fieldError?.message && <span>{fieldError.message}</span>}

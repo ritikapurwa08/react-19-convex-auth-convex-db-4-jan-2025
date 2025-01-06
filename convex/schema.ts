@@ -3,57 +3,90 @@ import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
+const usersConvexSchema = defineTable({
+  name: v.string(),
+  email: v.string(),
+  userName: v.optional(v.string()),
+  contactEmail: v.optional(v.string()),
+  role: v.union(v.literal("admin"), v.literal("proUser"), v.literal("user")),
+  age: v.optional(v.number()),
+  mobileNumber: v.optional(v.number()),
+  address: v.optional(v.string()),
+  customProfilePicture: v.optional(v.string()),
+  profileImageStorageId: v.optional(v.id("_storage")),
+
+  // Following and Followers (arrays of user IDs)
+  following: v.array(v.id("users")),
+  followers: v.array(v.id("users")),
+
+  // Security Questions
+  securityQuestions: v.array(
+    v.object({
+      question: v.string(),
+      answer: v.string(), // Store a hashed version of the answer!
+    })
+  ),
+
+  // Timestamps
+  updatedAt: v.number(),
+  lastPasswordUpdate: v.optional(v.number()),
+
+  // Arrays to store IDs of liked and saved blogs
+  likedBlogs: v.array(v.id("blogs")),
+  savedBlogs: v.array(v.id("blogs")),
+})
+  .index("by_email", ["email"])
+  .index("by_userName", ["userName"])
+  .index("by_following", ["following"])
+  .index("by_followers", ["followers"])
+  .index("by_likedBlogs", ["likedBlogs"])
+  .index("by_savedBlogs", ["savedBlogs"]);
+
+const blogsConvexSchema = defineTable({
+  title: v.string(),
+  content: v.string(),
+  authorId: v.id("users"),
+  authorName: v.string(),
+  authorProfileImage: v.optional(v.string()),
+  convexStorageId: v.optional(v.id("_storage")),
+  convexStorageUrl: v.optional(v.string()),
+  localImageUrl: v.optional(v.string()),
+  // Timestamps
+  updatedAt: v.optional(v.number()),
+
+  // Arrays to track likes and saves (arrays of user IDs)
+  likedBy: v.optional(v.array(v.id("users"))),
+  savedBy: v.optional(v.array(v.id("users"))),
+
+  // Comments (array of comment objects)
+  comments: v.optional(
+    v.array(
+      v.object({
+        userId: v.id("users"),
+        authorName: v.string(),
+        authorProfileImage: v.optional(v.string()),
+        comment: v.string(),
+        createdAt: v.number(),
+        updatedAt: v.number(),
+      })
+    )
+  ),
+})
+  .index("by_authorId", ["authorId"])
+  .index("by_title", ["title"])
+  .index("by_content", ["content"])
+  .searchIndex("search_name_content", {
+    searchField: "title",
+    filterFields: ["content"],
+  })
+  .index("by_updatedAt", ["updatedAt"])
+  .index("by_likedBy", ["likedBy"])
+  .index("by_savedBy", ["savedBy"]);
+
 const Schema = defineSchema({
   ...authTables,
-  blogs: defineTable({
-    name: v.string(), // Title of the blog
-    content: v.string(), // Content of the blog
-    authorId: v.id("users"), // ID of the user who created the blog
-    authorName: v.string(), // Name of the author
-    image: v.optional(v.id("_storage")), // Optional image stored in Convex storage
-    imageUrl: v.optional(v.string()), // Optional URL of the image
-    updatedAt: v.optional(v.number()), // Timestamp of the last update
-    totalLikes: v.optional(v.number()),
-    totalSaved: v.optional(v.number()),
-  })
-    .index("by_name", ["name"]) // Index for searching by name
-    .index("by_content", ["content"]) // Index for searching by content
-    .searchIndex("search_name_content", {
-      searchField: "name", // Field to search
-      filterFields: ["content"], // Additional fields to filter
-    })
-
-    .index("by_popular", ["totalLikes"]),
-
-  userProfiles: defineTable({
-    existingUserId: v.optional(v.id("users")),
-    extraUserDetais: v.object({
-      name: v.optional(v.string()),
-      email: v.optional(v.string()),
-      addAdditionalName: v.optional(v.string()),
-      addAdditionalEmail: v.optional(v.string()),
-      firstName: v.optional(v.string()),
-      lastName: v.optional(v.string()),
-      address: v.optional(v.string()),
-      phoneNumber: v.optional(v.string()),
-      profilePicture: v.optional(v.id("_storage")),
-      customProfilePicture: v.optional(v.string()),
-      favorites: v.optional(v.array(v.id("products"))),
-      cartItem: v.optional(v.array(v.id("products"))),
-    }),
-  }).index("by_user_id", ["existingUserId"]),
-
-  usersBlogsInteractions: defineTable({
-    userId: v.id("users"), // ID of the user interacting with the blog
-    blogId: v.id("blogs"), // ID of the blog being interacted with
-    isLiked: v.boolean(), // Whether the user has liked the blog
-    isSaved: v.boolean(),
-
-    // Whether the user has saved the blog
-  })
-    .index("by_user_blog", ["userId", "blogId"]) // Index for fast lookups by user and blog
-    .index("by_user", ["userId"]) // Index for fast lookups by user
-    .index("by_blog", ["blogId"]), // Index for fast lookups by blog
+  users: usersConvexSchema,
+  blogs: blogsConvexSchema,
 });
 
 export default Schema;

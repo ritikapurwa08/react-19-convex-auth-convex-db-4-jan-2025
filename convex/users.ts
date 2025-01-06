@@ -25,7 +25,7 @@ export const checkEmail = query({
   handler: async (ctx, args) => {
     const userEmailExist = await ctx.db
       .query("users")
-      .withIndex("email", (q) => q.eq("email", args.email))
+      .withIndex("by_email", (q) => q.eq("email", args.email))
       .first();
 
     return userEmailExist !== null;

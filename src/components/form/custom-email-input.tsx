@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
-import { useCheckEmail } from "../auth/hooks/check-email";
+import { useCheckEmail } from "../../hooks/auth/query/check-email";
 
 interface CustomEmailInputProps<T extends FieldValues> {
   control: Control<T>;
