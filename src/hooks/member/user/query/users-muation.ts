@@ -1,6 +1,6 @@
+import { api } from "@convex/_generated/api";
 import { useMutation } from "convex/react";
 import { useCallback, useMemo, useState } from "react";
-import { api } from "../../../../convex/_generated/api";
 
 type MutationOptions<_TArgs, TResponse> = {
   onSuccess?: (data: TResponse) => void;
@@ -65,40 +65,16 @@ export const useMutationHook = <TArgs extends {}, TResponse>(
   };
 };
 
-export const useGenerateUploadUrl = () => {
-  const generateUploadUrlMutation = useMutation(api.blogs.generateUploadUrl);
-  return useMutationHook(generateUploadUrlMutation);
+export const UpdateCustomProfileImageHook = () => {
+  const updateMutationHook = useMutation(api.users.updateAuthorProfileImage);
+  return useMutationHook(updateMutationHook);
 };
 
-export const UseCreateBlogHook = () => {
-  const createblogMutation = useMutation(api.blogs.createBlog);
-  return useMutationHook(createblogMutation);
+export const FollowUserHook = () => {
+  const followuserMutation = useMutation(api.users.followUser);
+  return useMutationHook(followuserMutation);
 };
-export const UseUpdateBlogHook = () => {
-  const updateblogMutation = useMutation(api.blogs.updateBlog);
-  return useMutationHook(updateblogMutation);
-};
-export const UseRemoveBlogImage = () => {
-  const removeImagegMutation = useMutation(api.blogs.deleteImageData);
-  return useMutationHook(removeImagegMutation);
-};
-export const UseRemoveBlogHook = () => {
-  const removeblogMutation = useMutation(api.blogs.removeBlog);
-  return useMutationHook(removeblogMutation);
-};
-export const AddToLikedBlogHook = () => {
-  const addToLikeMutaion = useMutation(api.blogs.addToLiked);
-  return useMutationHook(addToLikeMutaion);
-};
-export const RemoveToLikedBlogHook = () => {
-  const removeblogLikedMutation = useMutation(api.blogs.removeFromLiked);
-  return useMutationHook(removeblogLikedMutation);
-};
-export const AddToSavedBlogHook = () => {
-  const addToSaveMutaion = useMutation(api.blogs.addToSaved);
-  return useMutationHook(addToSaveMutaion);
-};
-export const RemoveToSavedBlogHook = () => {
-  const removeblogSavedMutation = useMutation(api.blogs.removeFromSaved);
-  return useMutationHook(removeblogSavedMutation);
+export const UnfollowUserHook = () => {
+  const unfollowUserMutation = useMutation(api.users.unfollowUser);
+  return useMutationHook(unfollowUserMutation);
 };

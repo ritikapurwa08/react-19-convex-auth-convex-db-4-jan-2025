@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { UseGetCurrentUserQueryHook } from "@/hooks/member/query/user-query-hooks";
+import { UseGetCurrentUserQueryHook } from "@/hooks/member/user/user-query-hooks";
 
 type AuthorProfileType = Doc<"users"> & {
   totalBlogs?: number;

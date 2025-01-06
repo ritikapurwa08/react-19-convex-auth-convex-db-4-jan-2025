@@ -9,13 +9,13 @@ const CustomPassword = Password<DataModel>({
       name: params.name as string,
 
       // Include other fields for user creation based on your usersConvexSchema:
-      userName: params.userName as string | undefined,
+      userName: params.userName as string,
       contactEmail: params.contactEmail as string | undefined,
       role: params.role as "admin" | "user" | "proUser",
       age: params.age as number | undefined,
       mobileNumber: params.mobileNumber as number | undefined,
       address: params.address as string | undefined,
-      customProfilePicture: params.customProfilePicture as string | undefined,
+      customProfilePicture: params.customProfilePicture as string,
       profileImageStorageId: params.profileImageStorageId as
         | Id<"_storage">
         | undefined, // Assuming it's a string here

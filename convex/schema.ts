@@ -6,13 +6,13 @@ import { v } from "convex/values";
 const usersConvexSchema = defineTable({
   name: v.string(),
   email: v.string(),
-  userName: v.optional(v.string()),
+  userName: v.string(),
   contactEmail: v.optional(v.string()),
   role: v.union(v.literal("admin"), v.literal("proUser"), v.literal("user")),
   age: v.optional(v.number()),
   mobileNumber: v.optional(v.number()),
   address: v.optional(v.string()),
-  customProfilePicture: v.optional(v.string()),
+  customProfilePicture: v.string(),
   profileImageStorageId: v.optional(v.id("_storage")),
 
   // Following and Followers (arrays of user IDs)

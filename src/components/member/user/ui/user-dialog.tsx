@@ -11,7 +11,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Settings, User } from "lucide-react"; // Import icons from lucide-react
 import SignOutButton from "../../../auth/ui/log-out-button";
 import { useNavigate } from "react-router-dom";
-import { UseGetCurrentUserQueryHook } from "@/hooks/member/query/user-query-hooks";
+import { UseGetCurrentUserQueryHook } from "@/hooks/member/user/user-query-hooks";
 
 const UserDialog = () => {
   const { user } = UseGetCurrentUserQueryHook();
@@ -23,7 +23,7 @@ const UserDialog = () => {
   const handleProfileNavigate = () => {
     console.log("Current user email:", user?.email); // Check this!
     if (user?.email) {
-      navigate(`/user-profile`);
+      navigate(`/member/user/user-profile`);
     }
   };
 

@@ -54,6 +54,18 @@ const SignUpInputs = () => {
     setShowPassword(!showPassword);
   };
 
+  const getRandomProfileImage = (): string => {
+    const randomIndex = Math.floor(Math.random() * 16) + 1; // Random number between 1 and 16
+    return `profile${randomIndex}`;
+  };
+  const generateRandomUsername = (): string => {
+    const randomNumber = Math.floor(10000000 + Math.random() * 90000000); // Generates an 8-digit random number
+    return `user@${randomNumber}`;
+  };
+
+  const randomProfileImage = getRandomProfileImage();
+  const randomUsername = generateRandomUsername();
+
   const handleSignUp = async (zodFormValues: AuthSignUpSchemaType) => {
     setIsLoading(true);
     setError("");
@@ -75,15 +87,14 @@ const SignUpInputs = () => {
       savedBlogs: [],
       role: "user",
       securityQuestions: { answer: "", question: "" },
-
       updatedAt: 0,
       address: "",
       contactEmail: "",
-      customProfilePicture: "",
+      customProfilePicture: randomProfileImage,
       lastPasswordUpdate: 0,
       mobileNumber: 0,
       profileImageStorageId: undefined,
-      userName: "",
+      userName: randomUsername,
     };
 
     try {

@@ -14,6 +14,8 @@ import BlogCreatePage from "@/components/blogs/pages/blog-create-page";
 import BlogFromUpdatePage from "@/components/blogs/pages/show-blog-update-page";
 import Auth from "@/components/auth/pages/auth-page";
 import HeroPage from "@/components/app/hero-page";
+import UserProfilePage from "@/components/member/user/pages/user-profile-page";
+import AuthorProfilePage from "@/components/member/author/pages/author-profile-page";
 
 const App = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -61,6 +63,14 @@ const App = () => {
               <Route path="test" element={<BlogTestPage />} />
               <Route path="/blogs/:id" element={<BlogDetailPage />} />
             </Route>
+            <Route
+              path="/member/user/user-profile"
+              element={<UserProfilePage />}
+            />
+            <Route
+              path="author-profile/:authorId"
+              element={<AuthorProfilePage />}
+            />
           </>
         )}
       </Routes>

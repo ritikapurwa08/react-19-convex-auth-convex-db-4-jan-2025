@@ -63,7 +63,7 @@ const navigation = [
     path: [
       {
         name: "Profile",
-        path: "/user-profile",
+        path: "/member/user/user-profile",
         icon: <UserIcon className="h-4 w-4" />,
       },
       {

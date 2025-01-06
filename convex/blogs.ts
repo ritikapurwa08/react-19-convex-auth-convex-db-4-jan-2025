@@ -489,6 +489,7 @@ export const getTotalLikes = query({
     return blog.likedBy?.length || 0;
   },
 });
+
 export const getTotalSaved = query({
   args: {
     blogId: v.id("blogs"), // The ID of the blog to fetch likes for
