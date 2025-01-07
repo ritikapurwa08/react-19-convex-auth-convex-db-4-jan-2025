@@ -58,6 +58,7 @@ export const BlogInteractionButton = ({
         <Button
           variant="outline"
           onClick={handleLikeClick}
+          type="button"
           className="w-fit flex items-center justify-center"
           disabled={addingToLiked || removingToLike || chekingLiked}
         >
@@ -78,6 +79,7 @@ export const BlogInteractionButton = ({
         <Button
           variant="outline"
           className="w-fit"
+          type="button"
           onClick={handleSaveClick}
           disabled={addingToSaved || removingFromSaved || chekingSaved}
         >

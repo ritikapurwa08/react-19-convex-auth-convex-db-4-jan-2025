@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Doc, Id } from "@convex/_generated/dataModel";
+import { Id } from "@convex/_generated/dataModel";
 import {
   useGetUserFollowersList,
   useGetUserFollowingList,
@@ -12,158 +12,154 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"; // Import shadcn dialog components
-import { Button } from "@/components/ui/button"; // Import shadcn button component
+} from "@/components/ui/dialog";
 
-type User = Doc<"users">;
-interface FollowingListDialogProps {
+interface FollowingDialogProps {
   userId: Id<"users">;
+  isOpen: boolean;
+  onOpenChange: (isOpen: boolean) => void;
 }
 
-// Following Section Component
-const FollowingSection = ({
+const FollowingDialog = ({
   userId,
-  isLoading,
-  followingList,
-}: {
-  userId: Id<"users">;
-  isLoading: boolean;
-  followingList: User[]; // Replace `any` with the correct type for your user data
-}) => {
-  return (
-    <>
-      <div className="p-4 border-b">
-        <h2 className="text-lg font-semibold">Following</h2>
-      </div>
-      <div className="p-4">
-        {isLoading ? (
-          <p className="text-gray-500 text-center">Loading following list...</p>
-        ) : followingList.length > 0 ? (
-          followingList.map((user) => (
-            <UserCardSmall
-              key={user._id}
-              userId={user._id}
-              name={user.name}
-              userName={user.userName}
-              customProfilePicture={user.customProfilePicture}
-            />
-          ))
-        ) : (
-          <p className="text-gray-500 text-center">No users found.</p>
-        )}
-      </div>
-    </>
-  );
-};
-
-// Followers Section Component
-const FollowersSection = ({
-  userId,
-  isLoading,
-  followersList,
-}: {
-  userId: Id<"users">;
-  isLoading: boolean;
-  followersList: User[]; // Replace `any` with the correct type for your user data
-}) => {
-  return (
-    <>
-      <div className="p-4 border-t">
-        <h2 className="text-lg font-semibold">Followers</h2>
-      </div>
-      <div className="p-4">
-        {isLoading ? (
-          <p className="text-gray-500 text-center">Loading followers list...</p>
-        ) : followersList.length > 0 ? (
-          followersList.map((user) => (
-            <UserCardSmall
-              key={user._id}
-              userId={user._id}
-              name={user.name}
-              userName={user.userName}
-              customProfilePicture={user.customProfilePicture}
-            />
-          ))
-        ) : (
-          <p className="text-gray-500 text-center">No users found.</p>
-        )}
-      </div>
-    </>
-  );
-};
-
-// Main Component
-const FollowingListDialog = ({ userId }: FollowingListDialogProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Fetch following list
+  isOpen,
+  onOpenChange,
+}: FollowingDialogProps) => {
   const { followingList, isLoading: isFollowingListLoading } =
     useGetUserFollowingList({ userId });
-
-  // Fetch followers list
-  const { followersList, isLoading: isFollowersListLoading } =
-    useGetUserFollowersList({ userId });
-
-  // Fetch total following count
   const { isLoading: isTotalFollowingLoading, totalFollowing } =
     useGetUserTotalFollowing({ userId });
 
-  // Fetch total followers count
-  const { isLoading: isTotalFollowersLoading, totalFollowers } =
-    useGetUserTotalFollowers({ userId });
-
-  // Loading state
-  const isLoading =
-    isFollowingListLoading ||
-    isFollowersListLoading ||
-    isTotalFollowingLoading ||
-    isTotalFollowersLoading;
-
-  // Ensure followingList and followersList are not undefined
+  const isLoading = isFollowingListLoading || isTotalFollowingLoading;
   const safeFollowingList = followingList || [];
-  const safeFollowersList = followersList || [];
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {/* Dialog Trigger Button */}
-      <DialogTrigger asChild>
-        <Button
-          disabled={isLoading}
-          className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        >
-          {isLoading ? (
-            "Loading..."
-          ) : (
-            <>
-              Following: {totalFollowing} | Followers: {totalFollowers}
-            </>
-          )}
-        </Button>
-      </DialogTrigger>
-
-      {/* Dialog Content */}
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Following and Followers</DialogTitle>
+          <DialogTitle>Following ({totalFollowing})</DialogTitle>
         </DialogHeader>
-
-        {/* Render Following Section */}
-        <FollowingSection
-          userId={userId}
-          isLoading={isFollowingListLoading}
-          followingList={safeFollowingList}
-        />
-
-        {/* Render Followers Section */}
-        <FollowersSection
-          userId={userId}
-          isLoading={isFollowersListLoading}
-          followersList={safeFollowersList}
-        />
+        <div className="p-4">
+          {isLoading ? (
+            <p className="text-gray-500 text-center">
+              Loading following list...
+            </p>
+          ) : safeFollowingList.length > 0 ? (
+            safeFollowingList.map((user) => (
+              <UserCardSmall
+                key={user._id}
+                userId={user._id}
+                name={user.name}
+                userName={user.userName}
+                customProfilePicture={user.customProfilePicture}
+              />
+            ))
+          ) : (
+            <p className="text-gray-500 text-center">No users found.</p>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default FollowingListDialog;
+interface FollowersDialogProps {
+  userId: Id<"users">;
+  isOpen: boolean;
+  onOpenChange: (isOpen: boolean) => void;
+}
+
+const FollowersDialog = ({
+  userId,
+  isOpen,
+  onOpenChange,
+}: FollowersDialogProps) => {
+  const { followersList, isLoading: isFollowersListLoading } =
+    useGetUserFollowersList({ userId });
+  const { isLoading: isTotalFollowersLoading, totalFollowers } =
+    useGetUserTotalFollowers({ userId });
+
+  const isLoading = isFollowersListLoading || isTotalFollowersLoading;
+  const safeFollowersList = followersList || [];
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Followers ({totalFollowers})</DialogTitle>
+        </DialogHeader>
+        <div className="p-4">
+          {isLoading ? (
+            <p className="text-gray-500 text-center">
+              Loading followers list...
+            </p>
+          ) : safeFollowersList.length > 0 ? (
+            safeFollowersList.map((user) => (
+              <UserCardSmall
+                key={user._id}
+                userId={user._id}
+                name={user.name}
+                userName={user.userName}
+                customProfilePicture={user.customProfilePicture}
+              />
+            ))
+          ) : (
+            <p className="text-gray-500 text-center">No users found.</p>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+import { Button } from "@/components/ui/button";
+interface FollowingFollowersButtonsProps {
+  userId: Id<"users">;
+}
+
+const FollowingFollowersButtons = ({
+  userId,
+}: FollowingFollowersButtonsProps) => {
+  const [isFollowingDialogOpen, setIsFollowingDialogOpen] = useState(false);
+  const [isFollowersDialogOpen, setIsFollowersDialogOpen] = useState(false);
+
+  return (
+    <div className="flex gap-2">
+      {/* Following Button */}
+      <Button
+        variant="outline"
+        size="lg"
+        type="button"
+        onClick={() => setIsFollowingDialogOpen(true)}
+      >
+        Following
+      </Button>
+
+      {/* Followers Button */}
+      <Button
+        variant="outline"
+        size="lg"
+        type="button"
+        onClick={() => setIsFollowersDialogOpen(true)}
+      >
+        Followers
+      </Button>
+
+      {/* Following Dialog */}
+      <FollowingDialog
+        userId={userId}
+        isOpen={isFollowingDialogOpen}
+        onOpenChange={setIsFollowingDialogOpen}
+      />
+
+      {/* Followers Dialog */}
+      <FollowersDialog
+        userId={userId}
+        isOpen={isFollowersDialogOpen}
+        onOpenChange={setIsFollowersDialogOpen}
+      />
+    </div>
+  );
+};
+
+export default FollowingFollowersButtons;

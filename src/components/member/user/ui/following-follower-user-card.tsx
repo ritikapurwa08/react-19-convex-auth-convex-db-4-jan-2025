@@ -1,4 +1,5 @@
 import { Id } from "@convex/_generated/dataModel";
+import AuthorFollowButton from "../../author/ui/author-profile-follow-button";
 
 interface UserSmallCardProps {
   name: string;
@@ -32,9 +33,7 @@ const UserCardSmall: React.FC<UserSmallCardProps> = ({
       </div>
 
       {/* Follow Button (Optional) */}
-      <button className="px-3 py-1 text-xs font-medium text-white bg-blue-500 rounded-full hover:bg-blue-600 transition-colors duration-200">
-        Follow
-      </button>
+      <AuthorFollowButton authorId={userId} />
     </div>
   );
 };

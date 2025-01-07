@@ -1,6 +1,6 @@
 import { usePaginatedQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
-import { Doc } from "@convex/_generated/dataModel";
+import { Doc, Id } from "@convex/_generated/dataModel";
 
 type Blog = Doc<"blogs">;
 
@@ -62,21 +62,21 @@ export const useGetPopularPaginatedBlogs = (
 };
 
 export const useGetUserCreatedPaginatedBlogs = (
-  userId: string | null,
+  userId: Id<"users"> | null,
   initialNumItems: number = 5
 ): UsePaginatedBlogsResult => {
   return usePaginatedBlogs("getUserCreatedBlogs", { userId }, initialNumItems);
 };
 
 export const useUserLikedPaginatedBlogs = (
-  userId: string | null,
+  userId: Id<"users"> | null,
   initialNumItems: number = 5
 ): UsePaginatedBlogsResult => {
   return usePaginatedBlogs("getUserLikedBlogs", { userId }, initialNumItems);
 };
 
 export const useGetUserSavedPaginatedBlogs = (
-  userId: string | null,
+  userId: Id<"users"> | null,
   initialNumItems: number = 5
 ): UsePaginatedBlogsResult => {
   return usePaginatedBlogs("getUserSavedBlogs", { userId }, initialNumItems);

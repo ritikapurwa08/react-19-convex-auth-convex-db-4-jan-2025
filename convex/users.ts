@@ -58,7 +58,6 @@ export const updateAuthorProfileImage = mutation({
     if (!userId) {
       throw new Error("User Not Found updateauthorprofileImage");
     }
-    const user = ctx.db.get(userId);
 
     const updateUserProfileImage = await ctx.db.patch(userId, {
       customProfilePicture: args.authorProfileImage,

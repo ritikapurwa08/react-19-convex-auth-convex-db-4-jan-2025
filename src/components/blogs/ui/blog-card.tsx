@@ -37,14 +37,29 @@ const BlogCard = ({
     : null;
 
   const { user } = useCurrentUser();
-
   const navigate = useNavigate();
+
+  const handleNavigateToAuthorProfile = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent event bubbling
+    if (user?._id) {
+      const OwnerOfBlog = user._id === authorId;
+      if (!OwnerOfBlog) {
+        navigate(`/author-profile/${authorId}`);
+      } else {
+        navigate("/member/user/user-profile");
+      }
+    }
+  };
+
+  const handleNavigateToblog = () => {
+    navigate(`/blogs/${_id}`);
+  };
 
   return (
     <Card className="max-w-2xl mx-auto min-w-full my-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
       <CardContent className="p-0">
         <div
-          onClick={() => navigate(`/blogs/${_id}`)}
+          onClick={handleNavigateToblog}
           className="relative overflow-hidden h-64 w-full cursor-pointer"
         >
           {/* Display both images if they exist */}
@@ -76,7 +91,7 @@ const BlogCard = ({
           {/* Author and Date Details */}
           <div className="flex justify-between items-center mt-4">
             <span
-              onClick={() => navigate(`/author-profile/${authorId}`)}
+              onClick={handleNavigateToAuthorProfile}
               className="text-sm hover:text-blue-500 transition-all duration-300 ease-in-out font-semibold text-gray-600 cursor-pointer"
             >
               By {authorName}
